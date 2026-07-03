@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoleSint · всё в одном</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            /* НОВЫЙ ФОН — тёмный сине-фиолетовый с переливами */
+            background: radial-gradient(circle at 0% 0%, #0b0a2a, #05031a),
+                        radial-gradient(circle at 100% 100%, #1d0f3a, #08042a),
+                        radial-gradient(circle at 50% 50%, #1a1240, #030116);
+            background-blend-mode: screen, overlay, normal;
+            min-height: 100vh;
+            color: #e0dcff;
+            padding: 1.8rem 1.2rem;
+            display: flex;
+            justify-content: center;
+            animation: bgShift 14s infinite alternate ease-in-out;
+        }
+
+        @keyframes bgShift {
+            0% { background-size: 100% 100%, 100% 100%, 100% 100%; }
+            50% { background-size: 150% 150%, 130% 130%, 100% 100%; }
+            100% { background-size: 100% 100%, 160% 160%, 110% 110%; }
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(8, 5, 28, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 3rem;
+            padding: 2.2rem 2.5rem 2.8rem;
+            border: 1px solid rgba(110, 80, 210, 0.3);
+            box-shadow: 0 30px 60px -15px #02010e, inset 0 1px 0 rgba(160, 130, 255, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem 0.5rem;
+            border-bottom: 1px solid rgba(120, 90, 210, 0.25);
+            padding-bottom: 1.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #d4c8ff, #927fe0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px #3f2d7a;
+        }
+
+        .header .by {
+            background: rgba(55, 40, 130, 0.45);
+            padding: 0.4rem 1.6rem;
+            border-radius: 60px;
+            border: 1px solid #6a54be;
+            font-size: 1.2rem;
+            color: #cdc2ff;
+            backdrop-filter: blur(4px);
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px #3d2b7a;
+        }
+
+        .header .by span {
+            color: #b7a6ff;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2.8rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #c9bdff;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 6px solid #7b65d6;
+            padding-left: 1rem;
+        }
+
+        .grid-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .tool-item {
+            background: rgba(20, 13, 50, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #3b2d72;
+            transition: 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #d2c8ff;
+            text-decoration: none;
+            font-weight: 450;
+            box-shadow: 0 6px 14px -6px #03010e;
+        }
+
+        .tool-item:hover {
+            background: #2d1f62;
+            border-color: #8b78e6;
+            transform: scale(1.03);
+            box-shadow: 0 0 28px #3d2b7a;
+            color: white;
+        }
+
+        .tool-item .emoji {
+            font-size: 1.5rem;
+            width: 2rem;
+            text-align: center;
+        }
+        .tool-item .name { flex: 1; }
+        .tool-item .badge {
+            font-size: 0.65rem;
+            background: #231d47;
+            padding: 0.1rem 0.7rem;
+            border-radius: 30px;
+            color: #a393ec;
+            border: 1px solid #4b3980;
+            white-space: nowrap;
+        }
+
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .tutorial-card {
+            background: rgba(16, 9, 44, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 1.2rem 1.4rem;
+            border: 1px solid #3b2d72;
+            transition: 0.2s;
+        }
+
+        .tutorial-card:hover {
+            background: #221b4e;
+            border-color: #7b65d6;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px #1f154a;
+        }
+
+        .tutorial-card h4 {
+            color: #d2c8ff;
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .tutorial-card p {
+            font-size: 0.9rem;
+            color: #b7abee;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .tutorial-card .tag {
+            background: #2d225a;
+            padding: 0.1rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            color: #b8a8ff;
+            display: inline-block;
+            margin-top: 0.4rem;
+        }
+
+        .anon-box {
+            background: rgba(12, 7, 38, 0.7);
+            border-radius: 2rem;
+            padding: 1.6rem 2rem;
+            border: 1px solid #45357a;
+            backdrop-filter: blur(4px);
+            margin-top: 0.8rem;
+        }
+
+        .anon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .anon-card {
+            background: #18113f;
+            border-radius: 24px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #4f3d8a;
+            transition: 0.15s;
+        }
+
+        .anon-card:hover {
+            background: #221b4e;
+            border-color: #7b65d6;
+        }
+
+        .anon-card h4 {
+            color: #cbbdff;
+            font-weight: 400;
+            margin-bottom: 0.3rem;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .anon-card p {
+            font-size: 0.9rem;
+            color: #b7abee;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .anon-card .tag {
+            background: #2d225a;
+            padding: 0.15rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: #b8a8ff;
+        }
+
+        .search-bundle {
+            background: #0d0a26;
+            padding: 1.2rem 1.8rem;
+            border-radius: 2.5rem;
+            border: 1px solid #3d2f78;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+        }
+
+        .search-bundle span {
+            color: #b09aff;
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .chip {
+            background: #19123f;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            border: 1px solid #4a3780;
+            color: #d4cbff;
+        }
+
+        .help-wrapper {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid #352b63;
+            padding-top: 2rem;
+        }
+
+        .help-btn {
+            background: linear-gradient(145deg, #4a3588, #2d1d66);
+            border: none;
+            padding: 1rem 3.8rem;
+            border-radius: 80px;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #f0ecff;
+            border: 1px solid #8b78e6;
+            box-shadow: 0 0 30px #3d2a7a;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            letter-spacing: 1px;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.05);
+            background: #543d9e;
+            box-shadow: 0 0 50px #5c41b0;
+            border-color: #b09aff;
+        }
+
+        .footnote {
+            margin-top: 1.8rem;
+            color: #5c4d94;
+            text-align: center;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 700px) {
+            .container { padding: 1.5rem; }
+            .header h1 { font-size: 1.9rem; }
+            .header .by { font-size: 1rem; padding: 0.2rem 1.2rem; }
+            .section-title { font-size: 1.4rem; }
+            .help-btn { padding: 0.8rem 2rem; font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- шапка -->
+    <div class="header">
+        <h1>🕳️ HoleSint — все в одном</h1>
+        <div class="by">by — <span>@coregoy</span></div>
+    </div>
+
+    <!-- ===== 1. ВСЕ ИНСТРУМЕНТЫ ===== -->
+    <div class="section">
+        <div class="section-title">🧰 Все инструменты OSINT</div>
+        <div class="grid-tools">
+            <a href="https://www.google.com" target="_blank" class="tool-item"><span class="emoji">🌐</span><span class="name">Google Dorks</span><span class="badge">поиск</span></a>
+            <a href="https://www.shodan.io" target="_blank" class="tool-item"><span class="emoji">🛰️</span><span class="name">Shodan</span><span class="badge">IoT</span></a>
+            <a href="https://publicwww.com" target="_blank" class="tool-item"><span class="emoji">📄</span><span class="name">PublicWWW</span><span class="badge">код</span></a>
+            <a href="https://github.com/sherlock-project/sherlock" target="_blank" class="tool-item"><span class="emoji">🔍</span><span class="name">Sherlock</span><span class="badge">ники</span></a>
+            <a href="https://github.com/soxoj/maigret" target="_blank" class="tool-item"><span class="emoji">🧩</span><span class="name">Maigret</span><span class="badge">соцсети</span></a>
+            <a href="https://haveibeenpwned.com" target="_blank" class="tool-item"><span class="emoji">🔐</span><span class="name">HaveIBeenPwned</span><span class="badge">утечки</span></a>
+            <a href="https://dehashed.com" target="_blank" class="tool-item"><span class="emoji">📁</span><span class="name">Dehashed</span><span class="badge">базы</span></a>
+            <a href="https://intelx.io" target="_blank" class="tool-item"><span class="emoji">🧬</span><span class="name">IntelX</span><span class="badge">поиск</span></a>
+            <a href="https://truecaller.com" target="_blank" class="tool-item"><span class="emoji">📞</span><span class="name">Truecaller</span><span class="badge">номер</span></a>
+            <a href="https://github.com/sundowndev/phoneinfoga" target="_blank" class="tool-item"><span class="emoji">📱</span><span class="name">PhoneInfoga</span><span class="badge">номер</span></a>
+            <a href="https://hunter.io" target="_blank" class="tool-item"><span class="emoji">✉️</span><span class="name">Hunter.io</span><span class="badge">email</span></a>
+            <a href="https://emailrep.io" target="_blank" class="tool-item"><span class="emoji">📧</span><span class="name">EmailRep</span><span class="badge">репутация</span></a>
+            <a href="https://www.maltego.com" target="_blank" class="tool-item"><span class="emoji">🕸️</span><span class="name">Maltego</span><span class="badge">граф</span></a>
+            <a href="https://github.com/lanmaster53/recon-ng" target="_blank" class="tool-item"><span class="emoji">🤖</span><span class="name">Recon-ng</span><span class="badge">фреймворк</span></a>
+            <a href="https://www.spiderfoot.net" target="_blank" class="tool-item"><span class="emoji">🕷️</span><span class="name">SpiderFoot</span><span class="badge">автоматизация</span></a>
+            <a href="https://github.com/laramies/theHarvester" target="_blank" class="tool-item"><span class="emoji">🌾</span><span class="name">theHarvester</span><span class="badge">email/домены</span></a>
+            <a href="https://github.com/opsdisk/metagoofil" target="_blank" class="tool-item"><span class="emoji">📂</span><span class="name">Metagoofil</span><span class="badge">метаданные</span></a>
+            <a href="https://www.abusix.com/abuseipdb" target="_blank" class="tool-item"><span class="emoji">🚫</span><span class="name">AbuseIPDB</span><span class="badge">IP</span></a>
+            <a href="https://securitytrails.com" target="_blank" class="tool-item"><span class="emoji">🏛️</span><span class="name">SecurityTrails</span><span class="badge">домены</span></a>
+            <a href="https://whois.domaintools.com" target="_blank" class="tool-item"><span class="emoji">📇</span><span class="name">Whois</span><span class="badge">домен</span></a>
+            <a href="https://www.earth.google.com" target="_blank" class="tool-item"><span class="emoji">🌍</span><span class="name">Google Earth</span><span class="badge">гео</span></a>
+            <a href="https://picarta.ai" target="_blank" class="tool-item"><span class="emoji">🗺️</span><span class="name">Picarta</span><span class="badge">геолокация фото</span></a>
+        </div>
+        <div style="margin-top: 0.6rem; display: flex; flex-wrap: wrap; gap: 6px;">
+            <span style="background: #1f1745; padding: 0.1rem 1rem; border-radius: 30px; font-size: 0.8rem; border:1px solid #4f3d8a;">➕ Twint</span>
+            <span style="background: #1f1745; padding: 0.1rem 1rem; border-radius: 30px; font-size: 0.8rem; border:1px solid #4f3d8a;">➕ Social-analyzer</span>
+            <span style="background: #1f1745; padding: 0.1rem 1rem; border-radius: 30px; font-size: 0.8rem; border:1px solid #4f3d8a;">➕ Yandex</span>
+            <span style="background: #1f1745; padding: 0.1rem 1rem; border-radius: 30px; font-size: 0.8rem; border:1px solid #4f3d8a;">➕ GhostProject</span>
+        </div>
+    </div>
+
+    <!-- ===== 2. ТУТОРИАЛЫ (МНОГО) ===== -->
+    <div class="section">
+        <div class="section-title">📚 Туториалы · гайды · чек-листы</div>
+        <div class="tutorial-grid">
+            <div class="tutorial-card"><h4>🔎 Google Dorks для OSINT</h4><p>20+ операторов: site, intitle, filetype, inurl. Как находить уязвимые панели, логи, базы.</p><span class="tag">продвинутый</span></div>
+            <div class="tutorial-card"><h4>🧩 Поиск по нику: Sherlock vs Maigret</h4><p>Сравнение, настройка, обход капчи. Масс-скан ников и анализ соцсетей.</p><span class="tag">инструменты</span></div>
+            <div class="tutorial-card"><h4>📸 EXIF & метаданные фото</h4><p>Как извлечь GPS, дату, модель камеры. Инструменты: ExifTool, FotoForensics, Metagoofil.</p><span class="tag">геолокация</span></div>
+            <div class="tutorial-card"><h4>🌍 Геоинтеллект по фото</h4><p>Picarta, Google Earth, обратный поиск. Определяем город по облакам, рельефу, вывескам.</p><span class="tag">гео</span></div>
+            <div class="tutorial-card"><h4>📞 Номер телефона: полный разбор</h4><p>Truecaller, PhoneInfoga, GetContact, Numverify. Оператор, регион, привязки к соцсетям.</p><span class="tag">номер</span></div>
+            <div class="tutorial-card"><h4>✉️ Email-разведка</h4><p>Hunter.io, EmailRep, HaveIBeenPwned. Проверка утечек, поиск по домену, социальные профили.</p><span class="tag">email</span></div>
+            <div class="tutorial-card"><h4>👤 ФИО и соцсети</h4><p>Поиск по VK, Facebook, LinkedIn, Одноклассники. Сбор данных из открытых профилей.</p><span class="tag">личность</span></div>
+            <div class="tutorial-card"><h4>🛡️ OPSEC для новичков</h4><p>Как не засветиться: виртуалка, VPN, Tor, чистые аккаунты, анти-футпринтинг.</p><span class="tag">безопасность</span></div>
+            <div class="tutorial-card"><h4>🧅 Tails OS и Tor</h4><p>Установка, настройка мостов, работа с Persistence. Полная анонимность.</p><span class="tag">продвинутый</span></div>
+            <div class="tutorial-card"><h4>📡 Shodan для разведки</h4><p>Поиск камер, серверов, открытых баз. Фильтры и дампы.</p><span class="tag">IoT</span></div>
+            <div class="tutorial-card"><h4>📂 Базы утечек: Dehashed, IntelX</h4><p>Как искать сливы, проверять пароли, анализировать данные.</p><span class="tag">базы</span></div>
+            <div class="tutorial-card"><h4>🕸️ Maltego и графы</h4><p>Сбор информации о доменах, email, соцсетях. Визуализация связей.</p><span class="tag">аналитика</span></div>
+            <div class="tutorial-card"><h4>🌐 WHOIS и домены</h4><p>Кто владеет сайтом, история, контакты. SecurityTrails, Whoisology.</p><span class="tag">домены</span></div>
+            <div class="tutorial-card"><h4>🔐 Поиск паролей в утечках</h4><p>Dehashed, LeakCheck, GhostProject. Как искать свои или чужие утечки.</p><span class="tag">безопасность</span></div>
+            <div class="tutorial-card"><h4>📱 WhatsApp, Telegram OSINT</h4><p>Поиск по номеру, ID, юзернейму. Анализ метаданных сообщений.</p><span class="tag">мессенджеры</span></div>
+            <div class="tutorial-card"><h4>🧵 Цепочка зацепок</h4><p>Ник → соцсети → email → номер → гео. Пошаговая стратегия.</p><span class="tag">методология</span></div>
+            <div class="tutorial-card"><h4>🪄 Автоматизация с Python</h4><p>Библиотеки: requests, BeautifulSoup, Selenium. Парсинг и анализ.</p><span class="tag">код</span></div>
+            <div class="tutorial-card"><h4>📊 Анализ соцграфов</h4><p>Построение связей между людьми, выявление окружения, пересечения.</p><span class="tag">аналитика</span></div>
+        </div>
+    </div>
+
+    <!-- ===== 3. АНОНИМНОСТЬ И OPSEC ===== -->
+    <div class="section">
+        <div class="section-title">🛡️ Анонимность & OPSEC</div>
+        <div class="anon-box">
+            <div style="display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; margin-bottom: 0.6rem;">
+                <span style="background: #2a1f55; padding: 0.2rem 1.2rem; border-radius: 40px; border:1px solid #6a54be;">🔹 VPN (Mullvad, ProtonVPN, Express)</span>
+                <span style="background: #2a1f55; padding: 0.2rem 1.2rem; border-radius: 40px; border:1px solid #6a54be;">🔹 Tor + Bridges</span>
+                <span style="background: #2a1f55; padding: 0.2rem 1.2rem; border-radius: 40px; border:1px solid #6a54be;">🔹 Анонимные почты (ProtonMail, Tutanota)</span>
+            </div>
+            <div class="anon-grid">
+                <div class="anon-card"><h4>🌐 VPN <span class="tag">обязательно</span></h4><p>Используй платные VPN без логов. Не экономь на безопасности. Kill-switch и DNS-защита.</p></div>
+                <div class="anon-card"><h4>🧅 Tor <span class="tag">максимум</span></h4><p>Для особо чувствительных задач. Не открывай личные аккаунты. Используй Tails OS.</p></div>
+                <div class="anon-card"><h4>📧 Почта <span class="tag">временная</span></h4><p>Для регистраций — Guerrilla Mail, 10minutemail. Для постоянной — ProtonMail без номера.</p></div>
+                <div class="anon-card"><h4>🔑 Пароли <span class="tag">менеджер</span></h4><p>Bitwarden / KeePass. Уникальные пароли для каждого сервиса. Двухфакторка (TOTP).</p></div>
+                <div class="anon-card"><h4>🕵️ Браузер <span class="tag">Firefox + дополнения</span></h4><p>uBlock Origin, NoScript, CanvasBlocker, ClearURLs. Отключи WebRTC.</p></div>
+                <div class="anon-card"><h4>💳 Оплата <span class="tag">крипто / предоплата</span></h4><p>Используй Monero или подарочные карты. Не привязывай личные карты.</p></div>
+            </div>
+            <div style="margin-top: 1rem; background: #100d2b; border-radius: 30px; padding: 0.7rem 1.5rem; border-left: 6px solid #8b78e6;">
+                <p style="color: #cec4ff;">📌 <strong>Правило нулевого доверия:</strong> никогда не используй реальные данные. Вся деятельность — через изолированную среду (виртуалка / live-usb).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 4. ПОИСК ПО ЗАЦЕПКАМ ===== -->
+    <div class="section">
+        <div class="section-title">🔎 Поиск по зацепкам · номер · ФИО · email</div>
+        <div class="search-bundle">
+            <span>🔹 Ник → Sherlock / Maigret</span>
+            <span>🔹 Аватар → поиск по картинке (Google, Yandex, TinEye)</span>
+            <span>🔹 Email → Hunter.io / HaveIBeenPwned / EmailRep</span>
+            <span>🔹 Номер → Truecaller / PhoneInfoga / GetContact</span>
+            <span>🔹 ФИО → VK, FB, LinkedIn, суд. дела, Росреестр</span>
+            <span>🔹 Геоданные → EXIF, Picarta, Google Earth</span>
+        </div>
+        <div class="chip-group">
+            <span class="chip">📌 По номеру: Truecaller, PhoneInfoga, Numverify</span>
+            <span class="chip">📌 По ФИО: соцсети, СМИ, гос. реестры</span>
+            <span class="chip">📌 По email: Hunter, EmailRep, Epios</span>
+            <span class="chip">📌 По нику: Sherlock, Maigret, Whatsmyname</span>
+        </div>
+    </div>
+
+    <!-- ===== КНОПКА ПОМОЩИ ===== -->
+    <div class="help-wrapper">
+        <a href="https://t.me/suppExport" target="_blank" class="help-btn">
+            <span>🆘</span> Помощь
+        </a>
+    </div>
+
+    <div class="footnote">
+        by @coregoy · Все инструменты и методы OSINT в открытом доступе. Будьте этичны.
+    </div>
+</div>
+</body>
+</html>
