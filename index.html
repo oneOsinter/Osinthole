@@ -13,23 +13,13 @@
 
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            /* НОВЫЙ ФОН — тёмный сине-фиолетовый с переливами */
-            background: radial-gradient(circle at 0% 0%, #0b0a2a, #05031a),
-                        radial-gradient(circle at 100% 100%, #1d0f3a, #08042a),
-                        radial-gradient(circle at 50% 50%, #1a1240, #030116);
-            background-blend-mode: screen, overlay, normal;
+            /* Тёмный сине-фиолетовый фон БЕЗ перелива */
+            background: #0a0720;
             min-height: 100vh;
             color: #e0dcff;
             padding: 1.8rem 1.2rem;
             display: flex;
             justify-content: center;
-            animation: bgShift 14s infinite alternate ease-in-out;
-        }
-
-        @keyframes bgShift {
-            0% { background-size: 100% 100%, 100% 100%, 100% 100%; }
-            50% { background-size: 150% 150%, 130% 130%, 100% 100%; }
-            100% { background-size: 100% 100%, 160% 160%, 110% 110%; }
         }
 
         .container {
@@ -333,7 +323,7 @@
     <!-- шапка -->
     <div class="header">
         <h1>🕳️ HoleSint — все в одном</h1>
-        <div class="by">by — <span>@coregoy</span></div>
+        <div class="by">by — <span>@holeOsint</span></div>
     </div>
 
     <!-- ===== 1. ВСЕ ИНСТРУМЕНТЫ ===== -->
@@ -441,12 +431,12 @@
     <!-- ===== КНОПКА ПОМОЩИ ===== -->
     <div class="help-wrapper">
         <a href="https://t.me/suppExport" target="_blank" class="help-btn">
-            <span>🆘</span> Помощь
+            <span>👨‍💻</span> Помощь
         </a>
     </div>
 
     <div class="footnote">
-        by @coregoy · Все инструменты и методы OSINT в открытом доступе. Будьте этичны.
+        by @holeOsint · Создатель — @sihole • 676767
     </div>
 </div>
 </body>
